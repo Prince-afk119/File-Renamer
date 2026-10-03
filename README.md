@@ -11,3 +11,7 @@
 # Before You Begin
 
 - run uv sync to get all dependencies used in the env
+
+
+# NB
+
