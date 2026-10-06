@@ -12,15 +12,43 @@ Show_Name = st.text_input("Enter The Show/Anime Name")
 Season = st.number_input("Enter Season Number", step= 1)
 # Season = 4
 
-filenames = os.listdir(folder_path)
+if "rename_history" not in st.session_state:
+    st.session_state.rename_history = []
 
-
-for i in filenames:
-    if keyword.lower()  in i.lower():
-        if i[-6].isdigit():
-            episode = int(i[-6]) + 1
+def renamer():
+    filenames = os.listdir(folder_path)
+    for i in filenames:
+        if keyword.lower() in i.lower() and Show_Name.lower() not in i.lower():
+            if i[-7].isdigit() and i[-6].isdigit():
+                episode = int(str(i[-7] + i[-6])) + 1
+            elif i[-6].isdigit() and not i[-7].isdigit():
+                episode = int(i[-6]) + 1
+            else:
+                episode = 1
+            old_path = os.path.join(folder_path, i)
+            new_path = os.path.join(folder_path, Show_Name + " Episode " + str(episode) + " Season " + str(Season) + ".txt")
+            if not os.path.exists(new_path):
+                st.session_state.rename_history.append((old_path, new_path))
+                st.write(f"{i} -> {Show_Name} {Season} episode {episode}")
+                os.rename(old_path, new_path)
+            else:
+                st.write(f"Skipping {i}, destination already exists")
         else:
-            episode = 17
-        os.rename(os.path.join(folder_path,i),os.path.join(folder_path,Show_Name + "Episode " + str(episode) + " " + "Season " + str(Season) + ".mp4"))
-    else:
-        st.write("The Keyword You Typed Was Not Found, But found " + i)
+            st.write("The Keyword You Typed Was Not Found, But found " + i)
+
+def undo():
+    for old_path, new_path in st.session_state.rename_history:
+        os.rename(new_path, old_path)
+    st.session_state.rename_history = []
+
+if folder_path and st.button("Rename"):
+    renamer()
+
+if st.button("Undo"):
+    undo()
+    
+    
+    
+    
+    
+
