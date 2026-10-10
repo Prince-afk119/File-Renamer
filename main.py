@@ -3,14 +3,14 @@ import streamlit as st
 
 
 folder_path = st.text_input("Enter folder path")
-# folder_path = "C:/Deposite/New/"
+
 keyword = st.text_input("Enter keyword to search for")
-# keyword = "getvid"
 
 Show_Name = st.text_input("Enter The Show/Anime Name")
-# Show_Name = "ReZero"
+
 Season = st.number_input("Enter Season Number", step= 1)
-# Season = 4
+
+
 
 if "rename_history" not in st.session_state:
     st.session_state.rename_history = []
@@ -26,7 +26,7 @@ def renamer():
             else:
                 episode = 1
             old_path = os.path.join(folder_path, i)
-            new_path = os.path.join(folder_path, Show_Name + " Episode " + str(episode) + " Season " + str(Season) + ".txt")
+            new_path = os.path.join(folder_path, Show_Name + " Episode " + str(episode) + " Season " + str(Season) + ".mp4")
             if not os.path.exists(new_path):
                 st.session_state.rename_history.append((old_path, new_path))
                 st.write(f"{i} -> {Show_Name} {Season} episode {episode}")
@@ -48,7 +48,3 @@ if st.button("Undo"):
     undo()
     
     
-    
-    
-    
-
