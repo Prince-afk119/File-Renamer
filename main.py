@@ -26,7 +26,7 @@ def renamer():
             else:
                 episode = 1
             old_path = os.path.join(folder_path, i)
-            new_path = os.path.join(folder_path, Show_Name + " Episode " + str(episode) + " Season " + str(Season) + ".mp4")
+            new_path = os.path.join(folder_path, Show_Name +  " Season " + str(Season) + " Episode " + str(episode) + ".mp4")
             if not os.path.exists(new_path):
                 st.session_state.rename_history.append((old_path, new_path))
                 st.write(f"{i} -> {Show_Name} {Season} episode {episode}")
